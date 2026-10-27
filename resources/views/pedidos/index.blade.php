@@ -11,7 +11,7 @@
             <div class="order-card-head"><div><span class="order-code">{{ $pedido->codigo }}</span><div class="order-date">{{ $pedido->created_at->format('d/m/Y · H:i') }}</div></div><x-status :state="$pedido->estado"/></div>
             <x-order-progress :state="$pedido->estado"/>
             @if($pedido->estado === 'listo')<p class="small mb-2">¡Tu pausa está lista! Pasa por UniFood y paga al recoger.</p>@endif
-            <div class="order-card-foot"><strong><small class="text-muted fs-6">Bs.</small> {{ number_format($pedido->total, 2) }}</strong><div class="d-flex gap-2 flex-wrap"><a href="{{ url('/mis-pedidos/'.$pedido->id) }}" class="btn btn-outline-primary btn-sm">Ver detalle <x-icon :size="14"/></a>@if($pedido->estado === 'pendiente')<form action="{{ url('/mis-pedidos/'.$pedido->id.'/cancelar') }}" method="POST" onsubmit="return confirm('¿Seguro que deseas cancelar este pedido?');">@csrf<button type="submit" class="btn btn-sm btn-outline-secondary">Cancelar</button></form>@endif</div></div>
+            <div class="order-card-foot"><strong><small class="text-muted fs-6">Bs.</small> {{ number_format($pedido->total, 2) }}</strong><div class="d-flex gap-2 flex-wrap"><a href="{{ url('/mis-pedidos/'.$pedido->id) }}" class="btn btn-outline-primary btn-sm">Ver detalle <x-icon :size="14"/></a>@if($pedido->estado === 'pendiente')<form action="{{ url('/mis-pedidos/'.$pedido->id.'/cancelar') }}" method="POST" data-confirm-title="¿Cancelar pedido?" data-confirm="Vas a cancelar el pedido {{ $pedido->codigo }}. Esta acción no se puede deshacer." data-confirm-label="Sí, cancelar pedido">@csrf<button type="submit" class="btn btn-sm btn-outline-secondary">Cancelar</button></form>@endif</div></div>
         </article>
     @endforeach
     </div>

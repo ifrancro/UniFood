@@ -63,7 +63,7 @@
                                     </form>
 
                                     @if($producto->activo)
-                                        <form action="{{ url('/admin/productos/' . $producto->id . '/desactivar') }}" method="POST" onsubmit="return confirm('¿Desactivar este producto? Ya no aparecerá en el catálogo de estudiantes.');">
+                                        <form action="{{ url('/admin/productos/' . $producto->id . '/desactivar') }}" method="POST" data-confirm-title="¿Desactivar producto?" data-confirm="El producto «{{ $producto->nombre }}» dejará de aparecer en el catálogo de estudiantes. Podrás volver a activarlo desde Editar." data-confirm-label="Sí, desactivar">
                                             @csrf
                                             <button type="submit" class="btn btn-sm btn-outline-danger">
                                                 Desactivar

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#a50046">
+<title>Sin conexión · UniFood</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px;background:#f8f6f3;color:#27232a;font:16px/1.6 system-ui,sans-serif}main{width:100%;max-width:460px;padding:36px 28px;border:1px solid #e9e3e5;border-radius:24px;background:white;text-align:center}img{width:80px;height:80px;object-fit:contain}.brand{color:#a50046;font-weight:700;letter-spacing:2px;font-size:12px;margin:16px 0 24px}h1{font-size:30px;line-height:1.2;letter-spacing:-1px}p{color:#716b73}button{min-height:48px;border:0;border-radius:12px;background:#a50046;color:white;padding:12px 24px;font:600 15px system-ui;cursor:pointer}button:focus-visible{outline:3px solid #a50046;outline-offset:4px}.note{font-size:13px;margin-top:24px}
+</style></head>
+<body><main>
+<img id="logo" alt="UNIVALLE" width="80" height="80">
+<p class="brand">UNIFOOD · CAMPUS Y CAFÉ</p>
+<h1>Tu pausa puede esperar un momento.</h1>
+<p>No pudimos conectar con UniFood. Revisa tu conexión a internet para ver el menú y consultar tus pedidos.</p>
+<button type="button" onclick="window.location.reload()">Volver a intentar</button>
+<p class="note">Esta pantalla no confirma operaciones. Si estabas enviando un pedido, consulta Mis pedidos al reconectarte antes de repetirlo.</p>
+</main><script>
+// Offline fallback can appear at a nested order URL. Resolve the logo from the worker scope.
+if ('serviceWorker' in navigator) navigator.serviceWorker.ready.then(registration => {
+ document.getElementById('logo').src = new URL('images/univalle.png', registration.scope).href;
+});
+</script></body></html>

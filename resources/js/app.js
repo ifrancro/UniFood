@@ -1,4 +1,6 @@
 import { gsap } from 'gsap';
+import './pwa';
+import './confirmation';
 
 gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
     const elements = document.querySelectorAll('[data-reveal]');
@@ -110,7 +112,7 @@ document.addEventListener('submit', event => {
 const liveRegion = document.querySelector('[data-live-region]');
 let liveBusy = false;
 async function refreshOrders() {
-    if (!liveRegion || liveBusy || document.hidden || document.querySelector('form[data-submitting="true"]') || liveRegion.contains(document.activeElement)) return;
+    if (!liveRegion || liveBusy || document.hidden || document.querySelector('[data-confirm-dialog][open]') || document.querySelector('form[data-submitting="true"]') || liveRegion.contains(document.activeElement)) return;
     liveBusy = true;
     const note = document.querySelector('[data-live-note]');
     try {

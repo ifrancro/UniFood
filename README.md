@@ -14,3 +14,7 @@ Sistema web para pedidos de comida universitaria desarrollado en Laravel (Blade 
 
 ## Recuperación de Contraseña
 - Correo configurado con driver `log`. Los enlaces de reseteo se registran en `storage/logs/laravel.log`.
+
+## Versión móvil PWA
+
+Consultar [la guía de instalación y pruebas](docs/PWA.md). Pruebas del service worker: `npm run test:pwa`.

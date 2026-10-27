@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#A50046">
+    <meta name="unifood-service-worker" content="{{ asset('sw.js') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="UniFood">
+    <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+    <link rel="apple-touch-icon" href="{{ asset('icons/apple-touch-icon.png') }}">
     <meta name="description" content="Tu pausa favorita en UNIVALLE. Pide en UniFood y paga al recoger en el campus.">
     <title>@yield('title', 'UniFood · Campus & café')</title>
     <link rel="icon" type="image/png" href="{{ asset('images/univalle.png') }}">
@@ -50,6 +55,7 @@
         </nav>
     </header>
     <main id="main-content" class="app-container main-content">
+        <div class="alert alert-warning" role="status" data-connection-notice hidden>Sin conexión. Necesitas internet para consultar o enviar pedidos. Si estabas enviando uno, revisa Mis pedidos al reconectarte antes de repetirlo.</div>
         <div class="flash-messages">
             @if(session('success'))
                 <div class="alert alert-success" role="status" data-success><x-icon name="check"/><span>{{ session('success') }}</span></div>
@@ -64,9 +70,17 @@
         @yield('content')
     </main>
     <footer class="site-footer app-container">
+        <div class="pwa-install"><button type="button" class="btn btn-outline-primary btn-sm" data-pwa-install hidden>Instalar UniFood</button><span data-pwa-help hidden>Para instalar UniFood en iPhone o iPad: abre Compartir y elige «Agregar a inicio».</span></div>
         <span class="footer-brand">UniFood<span> · Hecho para tu vida en el campus.</span></span>
         <span><x-icon name="pin" :size="15"/> UNIVALLE · Campus principal <i></i> Pago al recoger</span>
     </footer>
     <div class="app-toast" role="status" aria-live="polite" aria-atomic="true" hidden><x-icon name="check"/><span data-toast-message></span><a href="{{ url('/carrito') }}" data-toast-cart>Ver carrito →</a><button type="button" aria-label="Cerrar notificación" data-toast-close>×</button></div>
+    <dialog class="confirmation-dialog" data-confirm-dialog aria-labelledby="confirmation-title" aria-describedby="confirmation-message">
+        <div class="confirmation-heading"><span class="confirmation-brand">UniFood</span><button type="button" class="confirmation-close" data-confirm-cancel aria-label="Cerrar confirmación">×</button></div>
+        <div class="confirmation-icon" aria-hidden="true">!</div>
+        <h2 id="confirmation-title" data-confirm-title></h2>
+        <p id="confirmation-message" data-confirm-message></p>
+        <div class="confirmation-actions"><button type="button" class="btn btn-outline-secondary" data-confirm-cancel autofocus>Volver</button><button type="button" class="btn btn-primary" data-confirm-accept>Confirmar</button></div>
+    </dialog>
 </body>
 </html>

@@ -44,12 +44,14 @@
                     </div>
 
                     <div class="mb-3 form-check">
+                        <input type="hidden" name="disponible" value="0">
                         <input type="checkbox" class="form-check-input" id="disponible" name="disponible" value="1" {{ old('disponible', $producto->disponible ?? true) ? 'checked' : '' }}>
                         <label class="form-check-label" for="disponible">Producto disponible para la venta inmediata</label>
                     </div>
 
                     @if($producto->exists)
                         <div class="mb-3 form-check">
+                            <input type="hidden" name="activo" value="0">
                             <input type="checkbox" class="form-check-input" id="activo" name="activo" value="1" {{ old('activo', $producto->activo) ? 'checked' : '' }}>
                             <label class="form-check-label" for="activo">Producto activo en el catálogo (desmarcar para baja lógica)</label>
                         </div>

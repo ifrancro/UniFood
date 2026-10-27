@@ -39,7 +39,7 @@ class ProductoController extends Controller
             'descripcion' => $validated['descripcion'],
             'precio' => $validated['precio'],
             'categoria' => $validated['categoria'],
-            'disponible' => $request->boolean('disponible', true),
+            'disponible' => $request->boolean('disponible'),
             'activo' => true,
         ]);
 
@@ -66,9 +66,7 @@ class ProductoController extends Controller
         $producto->categoria = $validated['categoria'];
         $producto->disponible = $request->boolean('disponible');
         
-        if ($request->has('activo')) {
-            $producto->activo = $request->boolean('activo');
-        }
+        $producto->activo = $request->boolean('activo');
 
         $producto->save();
 
