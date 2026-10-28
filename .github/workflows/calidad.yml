@@ -16,6 +16,7 @@ jobs:
           cache: npm
       - run: composer install --no-interaction --prefer-dist
       - run: npm ci
+      - run: npx cypress install
       - run: npm run build
       - run: cp .env.example .env && php artisan key:generate
       - run: php artisan test
@@ -44,3 +45,4 @@ jobs:
           path: |
             evidencias_sqa/automatizacion/
             cypress/screenshots/
+
