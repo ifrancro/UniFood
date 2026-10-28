@@ -1,0 +1,11 @@
+ID,Historia,Estado,Prioridad,Responsable,Criterio de cierre
+HU-01,Autenticación y roles,Validación pendiente,Alta,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-01 no se declara aceptada por pasar pruebas parciales.
+HU-02,Consulta de catálogo,Validación pendiente,Media,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-02 no se declara aceptada por pasar pruebas parciales.
+HU-03,Gestión de carrito,Validación pendiente,Media,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-03 no se declara aceptada por pasar pruebas parciales.
+HU-04,Creación de pedidos,Validación pendiente,Alta,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-04 no se declara aceptada por pasar pruebas parciales.
+HU-05,Consulta de pedidos propios,Validación pendiente,Media,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-05 no se declara aceptada por pasar pruebas parciales.
+HU-06,Atención y estados de pedidos,Validación pendiente,Alta,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-06 no se declara aceptada por pasar pruebas parciales.
+HU-07,Creación y edición de productos,Validación pendiente,Alta,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-07 no se declara aceptada por pasar pruebas parciales.
+HU-08,Retiro y reactivación de productos,Validación pendiente,Alta,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-08 no se declara aceptada por pasar pruebas parciales.
+HU-09,Cancelación de pedido pendiente,Validación pendiente,Media,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-09 no se declara aceptada por pasar pruebas parciales.
+HU-10,Experiencia móvil y PWA,Validación pendiente,Media,Por acordar,Revisar criterios y casos en informe SQA-UF-01; HU-10 no se declara aceptada por pasar pruebas parciales.

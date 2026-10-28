@@ -1,0 +1,46 @@
+name: Calidad UniFood
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, sqlite3, pdo_sqlite
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: composer install --no-interaction --prefer-dist
+      - run: npm ci
+      - run: npm run build
+      - run: cp .env.example .env && php artisan key:generate
+      - run: php artisan test
+      - run: npm run test:pwa
+      - name: Preparar base aislada
+        run: |
+          touch database/e2e.sqlite
+          php artisan migrate --seed --force
+          php artisan serve --host=127.0.0.1 --port=8011 > /tmp/unifood-e2e.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8011/login >/dev/null && break; sleep 1; done
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ${{ github.workspace }}/database/e2e.sqlite
+          SESSION_DRIVER: file
+          SESSION_COOKIE: unifood_e2e
+          APP_URL: http://127.0.0.1:8011
+      - name: Cypress
+        run: npm run test:cypress -- --browser chrome
+      - name: Selenium
+        if: ${{ !cancelled() }}
+        run: npm run test:selenium
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evidencias-calidad
+          path: |
+            evidencias_sqa/automatizacion/
+            cypress/screenshots/
