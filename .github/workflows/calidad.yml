@@ -1,8 +1,13 @@
 name: Calidad UniFood
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 jobs:
   pruebas:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -19,8 +24,9 @@ jobs:
       - run: npx cypress install
       - run: npm run build
       - run: cp .env.example .env && php artisan key:generate
-      - run: php artisan test
-      - run: npm run test:pwa
+      - run: mkdir -p evidencias_sqa/automatizacion
+      - run: php artisan test --log-junit evidencias_sqa/automatizacion/phpunit.xml
+      - run: node --test --test-reporter=junit tests/pwa/*.test.mjs > evidencias_sqa/automatizacion/pwa.xml
       - name: Preparar base aislada
         run: |
           touch database/e2e.sqlite
@@ -45,4 +51,3 @@ jobs:
           path: |
             evidencias_sqa/automatizacion/
             cypress/screenshots/
-
