@@ -23,7 +23,7 @@
             @foreach($pedido->detalles as $detalle)<div class="order-line"><b>{{ $detalle->cantidad }}×</b><span>{{ $detalle->nombre_producto }}</span></div>@endforeach
             <div class="order-card-foot"><strong>Bs. {{ number_format($pedido->total, 2) }}</strong><a href="{{ url('/panel/pedidos/'.$pedido->id) }}" class="small">Ver detalle →</a></div>
             @if(isset(\App\Models\Pedido::TRANSICIONES[$pedido->estado]))
-                <form action="{{ url('/panel/pedidos/'.$pedido->id.'/estado') }}" method="POST">@csrf<button type="submit" class="btn btn-primary">{{ \App\Models\Pedido::TEXTO_SIGUIENTE_ESTADO[$pedido->estado] }} <x-icon :size="16"/></button></form>
+                <form action="{{ url('/panel/pedidos/'.$pedido->id.'/estado') }}" method="POST">@csrf<input type="hidden" name="estado_esperado" value="{{ $pedido->estado }}"><button type="submit" class="btn btn-primary">{{ \App\Models\Pedido::TEXTO_SIGUIENTE_ESTADO[$pedido->estado] }} <x-icon :size="16"/></button></form>
             @else
                 <p class="mb-0 small">{{ $pedido->estado === 'entregado' ? '✓ Pedido entregado' : 'Pedido cancelado' }}</p>
             @endif

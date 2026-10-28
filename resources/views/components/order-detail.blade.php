@@ -14,7 +14,7 @@
         </div>
         <div class="detail-bottom"><div class="payment-note"><x-icon name="pin"/><div><strong>Recogida en UniFood · Campus principal</strong><p>{{ $pedido->estado === 'cancelado' ? 'Este pedido fue cancelado y no será preparado.' : ($pedido->estado === 'entregado' ? 'Gracias por compartir tu pausa con UniFood.' : 'Espera a que el pedido esté listo. Presenta tu código y paga al recoger.') }}</p></div></div>
             @if($isStaff && isset(\App\Models\Pedido::TRANSICIONES[$pedido->estado]))
-                <form action="{{ url('/panel/pedidos/'.$pedido->id.'/estado') }}" method="POST">@csrf<button type="submit" class="btn btn-primary">{{ \App\Models\Pedido::TEXTO_SIGUIENTE_ESTADO[$pedido->estado] }} <x-icon/></button></form>
+                <form action="{{ url('/panel/pedidos/'.$pedido->id.'/estado') }}" method="POST">@csrf<input type="hidden" name="estado_esperado" value="{{ $pedido->estado }}"><button type="submit" class="btn btn-primary">{{ \App\Models\Pedido::TEXTO_SIGUIENTE_ESTADO[$pedido->estado] }} <x-icon/></button></form>
             @endif
         </div>
     </div>

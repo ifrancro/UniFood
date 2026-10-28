@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\RateLimiter;
 use Tests\TestCase;
@@ -10,6 +9,25 @@ use Tests\TestCase;
 class RateLimitingLoginTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_login_is_allowed_after_the_lockout_expires(): void
+    {
+        $this->seed();
+        $this->freezeTime();
+        $email = 'estudiante@unifood.bo';
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $this->post('/login', ['email' => $email, 'password' => 'incorrecta']);
+        }
+        $this->post('/login', ['email' => $email, 'password' => 'password'])
+            ->assertSessionHas('lockout_seconds');
+        $this->assertGuest();
+
+        $this->travel(61)->seconds();
+        $this->post('/login', ['email' => $email, 'password' => 'password'])
+            ->assertRedirect('/catalogo');
+
+        $this->assertAuthenticated();
+    }
 
     public function test_failed_login_attempts_are_throttled_after_five_failures(): void
     {
@@ -69,8 +87,7 @@ class RateLimitingLoginTest extends TestCase
         $this->assertAuthenticated();
 
         // Verificar que el RateLimiter se limpió
-        $throttleKey = mb_strtolower($email) . '|127.0.0.1';
+        $throttleKey = mb_strtolower($email).'|127.0.0.1';
         $this->assertSame(0, RateLimiter::attempts($throttleKey));
     }
 }
-

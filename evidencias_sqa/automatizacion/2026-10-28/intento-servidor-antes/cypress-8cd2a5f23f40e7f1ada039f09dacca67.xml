@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="33.728" tests="8" failures="8">
+  <testsuite name="Root Suite" timestamp="2026-10-28T19:46:20" tests="0" file="tests\cypress\unifood.cy.cjs" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="UniFood flujos de acceso y experiencia" timestamp="2026-10-28T19:46:20" tests="8" time="33.726" failures="8">
+    <testcase name="UniFood flujos de acceso y experiencia CP-01 rechaza credenciales incorrectas" time="0.000" classname="CP-01 rechaza credenciales incorrectas">
+      <failure message="Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it.
+    at login (webpack:///./tests/cypress/unifood.cy.cjs:1:61)
+    at Context.eval (webpack:///./tests/cypress/unifood.cy.cjs:3:50)]]></failure>
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-01 estudiante accede al catálogo" time="0.000" classname="CP-01 estudiante accede al catálogo">
+      <failure message="Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it.
+    at login (webpack:///./tests/cypress/unifood.cy.cjs:1:61)
+    at Context.eval (webpack:///./tests/cypress/unifood.cy.cjs:4:47)]]></failure>
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-02 estudiante no puede administrar" time="0.000" classname="CP-02 estudiante no puede administrar">
+      <failure message="Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it.
+    at login (webpack:///./tests/cypress/unifood.cy.cjs:1:61)
+    at Context.eval (webpack:///./tests/cypress/unifood.cy.cjs:5:49)]]></failure>
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-02 empleado no puede administrar" time="0.000" classname="CP-02 empleado no puede administrar">
+      <failure message="Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it.
+    at login (webpack:///./tests/cypress/unifood.cy.cjs:1:61)
+    at Context.eval (webpack:///./tests/cypress/unifood.cy.cjs:6:47)]]></failure>
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-13 confirmación propia permite volver sin desactivar" time="0.000" classname="CP-13 confirmación propia permite volver sin desactivar">
+      <failure message="Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it.
+    at login (webpack:///./tests/cypress/unifood.cy.cjs:1:61)
+    at Context.eval (webpack:///./tests/cypress/unifood.cy.cjs:7:67)]]></failure>
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-16 catálogo móvil sin desbordamiento horizontal" time="0.000" classname="CP-16 catálogo móvil sin desbordamiento horizontal">
+      <failure message="Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it.
+    at login (webpack:///./tests/cypress/unifood.cy.cjs:1:61)
+    at Context.eval (webpack:///./tests/cypress/unifood.cy.cjs:8:83)]]></failure>
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-06 carrito vacío presenta estado claro" time="0.000" classname="CP-06 carrito vacío presenta estado claro">
+      <failure message="Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it.
+    at login (webpack:///./tests/cypress/unifood.cy.cjs:1:61)
+    at Context.eval (webpack:///./tests/cypress/unifood.cy.cjs:9:53)]]></failure>
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-18 confirma una vez y rechaza repetir un avance desde una pantalla antigua" time="0.000" classname="CP-18 confirma una vez y rechaza repetir un avance desde una pantalla antigua">
+      <failure message="Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find element: `#email`, but never found it.
+    at login (webpack:///./tests/cypress/unifood.cy.cjs:1:61)
+    at Context.eval (webpack:///./tests/cypress/unifood.cy.cjs:11:0)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

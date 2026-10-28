@@ -30,12 +30,14 @@ jobs:
       - name: Preparar base aislada
         run: |
           touch database/e2e.sqlite
-          php artisan migrate --seed --force
+          php artisan migrate --seed --force --no-interaction
           php artisan serve --host=127.0.0.1 --port=8011 > /tmp/unifood-e2e.log 2>&1 &
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8011/login >/dev/null && break; sleep 1; done
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ${{ github.workspace }}/database/e2e.sqlite
+          DB_URL: 'null'
+          CACHE_STORE: database
           SESSION_DRIVER: file
           SESSION_COOKIE: unifood_e2e
           APP_URL: http://127.0.0.1:8011

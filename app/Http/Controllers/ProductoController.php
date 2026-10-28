@@ -30,13 +30,13 @@ class ProductoController extends Controller
         $validated = $request->validate([
             'nombre' => ['required', 'string', 'max:100', 'unique:productos,nombre'],
             'descripcion' => ['nullable', 'string', 'max:255'],
-            'precio' => ['required', 'numeric', 'min:0.01'],
+            'precio' => ['required', 'numeric', 'decimal:0,2', 'min:0.01', 'max:999999.99'],
             'categoria' => ['required', 'string', 'in:bebidas,comidas,snacks'],
         ]);
 
         Producto::create([
             'nombre' => $validated['nombre'],
-            'descripcion' => $validated['descripcion'],
+            'descripcion' => $validated['descripcion'] ?? null,
             'precio' => $validated['precio'],
             'categoria' => $validated['categoria'],
             'disponible' => $request->boolean('disponible'),
@@ -54,18 +54,18 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
         $validated = $request->validate([
-            'nombre' => ['required', 'string', 'max:100', 'unique:productos,nombre,' . $producto->id],
+            'nombre' => ['required', 'string', 'max:100', 'unique:productos,nombre,'.$producto->id],
             'descripcion' => ['nullable', 'string', 'max:255'],
-            'precio' => ['required', 'numeric', 'min:0.01'],
+            'precio' => ['required', 'numeric', 'decimal:0,2', 'min:0.01', 'max:999999.99'],
             'categoria' => ['required', 'string', 'in:bebidas,comidas,snacks'],
         ]);
 
         $producto->nombre = $validated['nombre'];
-        $producto->descripcion = $validated['descripcion'];
+        $producto->descripcion = $validated['descripcion'] ?? null;
         $producto->precio = $validated['precio'];
         $producto->categoria = $validated['categoria'];
         $producto->disponible = $request->boolean('disponible');
-        
+
         $producto->activo = $request->boolean('activo');
 
         $producto->save();
@@ -75,7 +75,7 @@ class ProductoController extends Controller
 
     public function toggleDisponibilidad(Producto $producto)
     {
-        $producto->disponible = !$producto->disponible;
+        $producto->disponible = ! $producto->disponible;
         $producto->save();
 
         $estado = $producto->disponible ? 'disponible' : 'agotado';

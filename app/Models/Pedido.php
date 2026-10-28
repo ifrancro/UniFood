@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class Pedido extends Model
 {
@@ -19,6 +19,7 @@ class Pedido extends Model
         'user_id',
         'estado',
         'total',
+        'order_token',
     ];
 
     protected function casts(): array
@@ -42,34 +43,32 @@ class Pedido extends Model
 
     public static function generarCodigo(): string
     {
-        $hoy = date('Ymd');
-        $prefix = "UF-{$hoy}-";
-        $cacheKey = "pedido_correlativo_{$hoy}";
+        return DB::transaction(function (): string {
+            $fecha = now()->format('Y-m-d');
+            $prefijo = 'UF-'.now()->format('Ymd').'-';
+            $nuevoContador = DB::table('pedido_contadores')->insertOrIgnore([
+                'fecha' => $fecha,
+                'ultimo_numero' => 0,
+            ]);
 
-        // Inicializar el contador en caché con el correlativo más alto existente hoy en la BD
-        if (!Cache::has($cacheKey)) {
-            $ultimoCodigo = self::where('codigo', 'like', $prefix . '%')
-                ->orderByDesc('id')
-                ->value('codigo');
+            if ($nuevoContador) {
+                $ultimoCodigo = self::where('codigo', 'like', $prefijo.'%')
+                    ->orderByRaw('LENGTH(codigo) DESC')->orderByDesc('codigo')->value('codigo');
 
-            $ultimoNumero = 0;
-            if ($ultimoCodigo && preg_match('/-(\d{4,})$/', $ultimoCodigo, $matches)) {
-                $ultimoNumero = (int) $matches[1];
+                if ($ultimoCodigo && preg_match('/-(\d{4,})$/', $ultimoCodigo, $coincidencias)) {
+                    DB::table('pedido_contadores')->where('fecha', $fecha)
+                        ->update(['ultimo_numero' => (int) $coincidencias[1]]);
+                }
             }
 
-            Cache::add($cacheKey, $ultimoNumero, now()->addDays(2));
-        }
+            do {
+                DB::table('pedido_contadores')->where('fecha', $fecha)->increment('ultimo_numero');
+                $numero = DB::table('pedido_contadores')->where('fecha', $fecha)->value('ultimo_numero');
+                $codigo = $prefijo.str_pad((string) $numero, 4, '0', STR_PAD_LEFT);
+            } while (self::where('codigo', $codigo)->exists());
 
-        $correlativo = (int) Cache::increment($cacheKey);
-        $codigo = $prefix . str_pad((string) $correlativo, 4, '0', STR_PAD_LEFT);
-
-        // Salvaguarda: si por registros previos o huecos ya existiera en BD, avanzar atómicamente
-        while (self::where('codigo', $codigo)->exists()) {
-            $correlativo = (int) Cache::increment($cacheKey);
-            $codigo = $prefix . str_pad((string) $correlativo, 4, '0', STR_PAD_LEFT);
-        }
-
-        return $codigo;
+            return $codigo;
+        }, attempts: 5);
     }
 
     public function user(): BelongsTo

@@ -65,11 +65,13 @@ class EvitarPedidosDuplicadosTest extends TestCase
             ->post('/carrito/agregar', ['producto_id' => $product->id, 'cantidad' => 1]);
 
         // Simular que otra petición está en vuelo y tiene el lock
+        $this->get('/carrito');
+        $token = session('order_token');
         $lock = Cache::lock("pedido_store_user_{$student->id}", 10);
         $this->assertTrue($lock->get());
 
         // La segunda petición concurrente intenta crear el pedido
-        $response = $this->post('/pedidos');
+        $response = $this->post('/pedidos', ['order_token' => $token]);
         $response->assertRedirect('/mis-pedidos');
         $response->assertSessionHas('info');
 
@@ -79,4 +81,3 @@ class EvitarPedidosDuplicadosTest extends TestCase
         $lock->release();
     }
 }
-

@@ -23,7 +23,7 @@ class UniFoodExperienceTest extends TestCase
         $this->post('/carrito/agregar', ['producto_id' => $product->id, 'cantidad' => 2])
             ->assertRedirect('/carrito');
         $this->get('/carrito')->assertOk()->assertSee('Pago al recoger')->assertSee('16.00');
-        $this->post('/pedidos')->assertRedirect('/mis-pedidos');
+        $this->post('/pedidos', ['order_token' => session('order_token')])->assertRedirect('/mis-pedidos');
 
         $pedido = Pedido::firstOrFail();
         $this->assertSame('16.00', $pedido->total);
@@ -33,7 +33,7 @@ class UniFoodExperienceTest extends TestCase
 
         $this->actingAs($employee)->get('/panel/pedidos')->assertOk()->assertSee($pedido->codigo);
         foreach (['en_preparacion', 'listo', 'entregado'] as $state) {
-            $this->post('/panel/pedidos/'.$pedido->id.'/estado')->assertRedirect();
+            $this->post('/panel/pedidos/'.$pedido->id.'/estado', ['estado_esperado' => $pedido->fresh()->estado])->assertRedirect();
             $this->assertSame($state, $pedido->fresh()->estado);
         }
         $this->post('/panel/pedidos/'.$pedido->id.'/estado')->assertStatus(409);
@@ -60,7 +60,8 @@ class UniFoodExperienceTest extends TestCase
 
         $this->actingAs($student)->post('/carrito/agregar', ['producto_id' => $product->id, 'cantidad' => 1])
             ->assertSessionHas('error');
-        $this->post('/pedidos')->assertRedirect('/carrito')->assertSessionHas('error');
+        $this->get('/carrito')->assertOk();
+        $this->post('/pedidos', ['order_token' => session('order_token')])->assertRedirect('/carrito')->assertSessionHas('error');
         $this->assertDatabaseCount('pedidos', 0);
         $this->get('/carrito')->assertOk()->assertSee('Tu carrito está vacío');
     }

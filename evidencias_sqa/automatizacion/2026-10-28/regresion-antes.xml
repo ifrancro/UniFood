@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\PedidoSafetyTest" file="C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php" tests="7" assertions="19" errors="0" failures="7" skipped="0" time="0.800079">
+    <testcase name="test_confirmation_requires_a_token_and_keeps_the_cart_on_rejection" file="C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php" line="16" class="Tests\Feature\PedidoSafetyTest" classname="Tests.Feature.PedidoSafetyTest" assertions="2" time="0.585133">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\PedidoSafetyTest::test_confirmation_requires_a_token_and_keeps_the_cart_on_rejection&#13;
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'http://localhost:8000/carrito'
++'http://localhost:8000/mis-pedidos'
+&#13;
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:46
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:440
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:214
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php:24</failure>
+    </testcase>
+    <testcase name="test_confirmation_rejects_a_token_not_issued_to_the_session" file="C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php" line="30" class="Tests\Feature\PedidoSafetyTest" classname="Tests.Feature.PedidoSafetyTest" assertions="2" time="0.054350">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\PedidoSafetyTest::test_confirmation_rejects_a_token_not_issued_to_the_session&#13;
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'http://localhost:8000/carrito'
++'http://localhost:8000/mis-pedidos'
+&#13;
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:46
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:440
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:214
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php:36</failure>
+    </testcase>
+    <testcase name="test_replaying_a_confirmation_with_a_stale_session_keeps_one_order" file="C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php" line="41" class="Tests\Feature\PedidoSafetyTest" classname="Tests.Feature.PedidoSafetyTest" assertions="4" time="0.035199">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\PedidoSafetyTest::test_replaying_a_confirmation_with_a_stale_session_keeps_one_order&#13;
+Session is missing expected key [info].
+Failed asserting that false is true.
+&#13;
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:46
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1595
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php:52</failure>
+    </testcase>
+    <testcase name="test_unavailable_product_does_not_consume_the_confirmation_token" file="C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php" line="59" class="Tests\Feature\PedidoSafetyTest" classname="Tests.Feature.PedidoSafetyTest" assertions="4" time="0.027595">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\PedidoSafetyTest::test_unavailable_product_does_not_consume_the_confirmation_token&#13;
+Failed asserting that null is identical to '90374e53-3ec2-464f-9e8c-c7797d8c3aab'.
+&#13;
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php:71</failure>
+    </testcase>
+    <testcase name="test_repeating_an_employee_action_does_not_skip_a_state" file="C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php" line="75" class="Tests\Feature\PedidoSafetyTest" classname="Tests.Feature.PedidoSafetyTest" assertions="4" time="0.022059">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\PedidoSafetyTest::test_repeating_an_employee_action_does_not_skip_a_state&#13;
+Session is missing expected key [error].
+Failed asserting that false is true.
+&#13;
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:46
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1595
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php:84</failure>
+    </testcase>
+    <testcase name="test_employee_must_send_the_state_shown_in_the_form" file="C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php" line="89" class="Tests\Feature\PedidoSafetyTest" classname="Tests.Feature.PedidoSafetyTest" assertions="1" time="0.018414">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\PedidoSafetyTest::test_employee_must_send_the_state_shown_in_the_form&#13;
+Session is missing expected key [errors].
+Failed asserting that false is true.
+&#13;
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:46
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1595
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1706
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php:96</failure>
+    </testcase>
+    <testcase name="test_cart_and_order_use_exact_decimal_amounts" file="C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php" line="101" class="Tests\Feature\PedidoSafetyTest" classname="Tests.Feature.PedidoSafetyTest" assertions="2" time="0.057330">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\PedidoSafetyTest::test_cart_and_order_use_exact_decimal_amounts&#13;
+Failed asserting that [total] matches the expected value.
+Failed asserting that 0.30000000000000004 matches expected '0.30'.
+&#13;
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:46
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1365
+C:\Users\ASUS TUF\Documents\6 Semestre\Proy. Sistemas III\UniFood\tests\Feature\PedidoSafetyTest.php:109</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

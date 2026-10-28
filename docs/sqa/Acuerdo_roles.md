@@ -7,4 +7,4 @@ Confirmación del usuario en esta conversación, 27 de octubre de 2026, hora de 
 - Sergio Iporre: Developer, implementación y automatización.
 - Los tres: desarrollo y pruebas compartidos.
 
-Este acuerdo confirma responsabilidades. No acredita reuniones pasadas, firmas individuales ni aceptación de todas las historias. El tablero real se encuentra en https://github.com/users/kat506/projects/1 y cada HU enlaza a un issue de ifrancro/UniFood.
+Este acuerdo confirma responsabilidades. No acredita reuniones pasadas, firmas individuales ni aceptación de todas las historias. El tablero real se encuentra en https://github.com/users/ifrancro/projects/3 y cada HU enlaza a un issue de ifrancro/UniFood.

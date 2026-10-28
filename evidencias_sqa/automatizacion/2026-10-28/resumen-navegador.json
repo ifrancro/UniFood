@@ -1,0 +1,27 @@
+{
+  "date_utc": "2026-10-28T20:18:59.475Z",
+  "timezone": "America/La_Paz",
+  "browser": "Chrome 156 headless",
+  "base": "http://127.0.0.1:8012",
+  "environment": "Base SQLite exclusiva de E2E, sesiones file y caché database aisladas",
+  "cypress": {
+    "version": "16.2.0",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "report": "cypress.xml"
+  },
+  "selenium": {
+    "version": "4.51.0",
+    "tests": 4,
+    "passed": 4,
+    "report": "selenium-resultados.json"
+  },
+  "exit_code": 0,
+  "regression": "CP-18 confirma una vez y rechaza repetir un avance desde una pantalla antigua",
+  "previous_attempt": "intento-servidor-antes conserva el fallo de configuración del router previo a la corrección",
+  "isolation_checks": {
+    "inherited_db_url": "Neutralizado; campaña repetida con DB_URL externo inválido y aprobada.",
+    "cached_configuration": "Runner detenido antes de migrar al probar una configuración cacheada temporal."
+  }
+}

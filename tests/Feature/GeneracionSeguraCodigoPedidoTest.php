@@ -12,6 +12,16 @@ class GeneracionSeguraCodigoPedidoTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_reserved_codes_survive_cache_flush_before_an_order_is_saved(): void
+    {
+        $firstCode = Pedido::generarCodigo();
+
+        Cache::flush();
+        $secondCode = Pedido::generarCodigo();
+
+        $this->assertNotSame($firstCode, $secondCode);
+    }
+
     public function test_generates_standard_format_code(): void
     {
         $codigo = Pedido::generarCodigo();
@@ -94,4 +104,3 @@ class GeneracionSeguraCodigoPedidoTest extends TestCase
         $this->assertSame($num2 + 1, $num3);
     }
 }
-

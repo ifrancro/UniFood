@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class PanelPedidoController extends Controller
 {
@@ -42,30 +43,32 @@ class PanelPedidoController extends Controller
         return view('panel.pedidos.show', compact('pedido'));
     }
 
-    public function avanzarEstado(Pedido $pedido)
+    public function avanzarEstado(Request $request, Pedido $pedido): RedirectResponse
     {
-        return DB::transaction(function () use ($pedido) {
-            $pedidoActual = Pedido::where('id', $pedido->id)->lockForUpdate()->firstOrFail();
+        if ($pedido->estado === 'entregado') {
+            abort(409, 'El pedido ya fue entregado y no puede ser modificado.');
+        }
 
-            // RN-04: Un pedido en estado 'entregado' es inmutable.
-            if ($pedidoActual->estado === 'entregado') {
-                abort(409, 'El pedido ya fue entregado y no puede ser modificado.');
-            }
+        if ($pedido->estado === 'cancelado') {
+            return back()->with('error', 'El pedido fue cancelado y no puede ser modificado.');
+        }
 
-            if ($pedidoActual->estado === 'cancelado') {
-                return back()->with('error', 'El pedido fue cancelado y no puede ser modificado.');
-            }
+        $validated = $request->validate([
+            'estado_esperado' => ['required', Rule::in(array_keys(Pedido::TRANSICIONES))],
+        ], [
+            'estado_esperado.required' => 'Actualiza la página antes de cambiar el estado del pedido.',
+            'estado_esperado.in' => 'El estado del pedido no es válido.',
+        ]);
+        $estadoEsperado = $validated['estado_esperado'];
+        $siguienteEstado = Pedido::TRANSICIONES[$estadoEsperado];
 
-            $siguienteEstado = Pedido::TRANSICIONES[$pedidoActual->estado] ?? null;
+        $actualizados = Pedido::whereKey($pedido->id)->where('estado', $estadoEsperado)
+            ->update(['estado' => $siguienteEstado]);
 
-            if (!$siguienteEstado) {
-                abort(400, 'No se puede avanzar el estado actual de este pedido.');
-            }
+        if ($actualizados === 0) {
+            return back()->with('error', 'El pedido cambió mientras lo consultabas. Actualiza la página antes de continuar.');
+        }
 
-            $pedidoActual->estado = $siguienteEstado;
-            $pedidoActual->save();
-
-            return back()->with('success', "El pedido {$pedidoActual->codigo} avanzó al estado: '{$siguienteEstado}'.");
-        });
+        return back()->with('success', "El pedido {$pedido->codigo} avanzó al estado: '{$siguienteEstado}'.");
     }
 }

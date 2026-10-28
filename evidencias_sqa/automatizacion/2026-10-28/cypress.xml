@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="31.139" tests="8" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-10-28T20:18:16" tests="0" file="tests\cypress\unifood.cy.cjs" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="UniFood flujos de acceso y experiencia" timestamp="2026-10-28T20:18:16" tests="8" time="31.137" failures="0">
+    <testcase name="UniFood flujos de acceso y experiencia CP-01 rechaza credenciales incorrectas" time="1.637" classname="CP-01 rechaza credenciales incorrectas">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-01 estudiante accede al catálogo" time="3.135" classname="CP-01 estudiante accede al catálogo">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-02 estudiante no puede administrar" time="3.098" classname="CP-02 estudiante no puede administrar">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-02 empleado no puede administrar" time="3.730" classname="CP-02 empleado no puede administrar">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-13 confirmación propia permite volver sin desactivar" time="4.112" classname="CP-13 confirmación propia permite volver sin desactivar">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-16 catálogo móvil sin desbordamiento horizontal" time="4.282" classname="CP-16 catálogo móvil sin desbordamiento horizontal">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-06 carrito vacío presenta estado claro" time="3.303" classname="CP-06 carrito vacío presenta estado claro">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-18 confirma una vez y rechaza repetir un avance desde una pantalla antigua" time="7.577" classname="CP-18 confirma una vez y rechaza repetir un avance desde una pantalla antigua">
+    </testcase>
+  </testsuite>
+</testsuites>

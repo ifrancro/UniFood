@@ -2,7 +2,7 @@ import {Builder,By,until} from 'selenium-webdriver';
 import chrome from 'selenium-webdriver/chrome.js';
 import fs from 'node:fs/promises';
 const base=process.env.E2E_URL||'http://127.0.0.1:8011';
-const out='evidencias_sqa/automatizacion';await fs.mkdir(out,{recursive:true});
+const out=process.env.SQA_OUTPUT_DIR||'evidencias_sqa/automatizacion';await fs.mkdir(out,{recursive:true});
 const options=new chrome.Options().addArguments('--headless=new','--window-size=1280,900');
 if(process.env.CHROME_BINARY) options.setChromeBinaryPath(process.env.CHROME_BINARY);
 let builder=new Builder().forBrowser('chrome').setChromeOptions(options);

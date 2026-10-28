@@ -1,0 +1,32 @@
+{
+  "fecha_utc": "2026-10-28T20:20:44.833695+00:00",
+  "timezone": "America/La_Paz",
+  "base_commit": "e5631aaa28dd436d0d0bcf4c3ab4a5a4cf19850c",
+  "entorno": "Campaña local Windows con cambios de cierre SQA",
+  "resultados": {
+    "phpunit": {
+      "tests": 58,
+      "passed": 58,
+      "assertions": 286
+    },
+    "pwa": {
+      "tests": 6,
+      "passed": 6
+    },
+    "cypress": {
+      "tests": 8,
+      "passed": 8
+    },
+    "selenium": {
+      "tests": 4,
+      "passed": 4
+    }
+  },
+  "reportes": {
+    "phpunit.xml": "62d51ac1e43cb8823b71f8431bda91412dbfc1bc44ed995e6620cf17f512d6e3",
+    "pwa.xml": "150691fb9443376d7eaf8e1674f8c75f991f4ef7b3d807e9eeb380be9f790566",
+    "cypress.xml": "e1a3fdc564da7f7a881ffdea1551cab7d25e20fafd20e07ae71180a0792e4c4d",
+    "selenium-resultados.json": "996d6ab81603dcb87bf9ffd690bcb4412a1ab5de4987474fd483d89e90136fff"
+  },
+  "tablero": "https://github.com/users/ifrancro/projects/3"
+}
