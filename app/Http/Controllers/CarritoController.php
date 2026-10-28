@@ -30,9 +30,16 @@ class CarritoController extends Controller
             }
         }
 
+        $orderToken = session('order_token');
+        if (!$orderToken) {
+            $orderToken = (string) \Illuminate\Support\Str::uuid();
+            session(['order_token' => $orderToken]);
+        }
+
         return view('carrito.index', [
             'items' => $items,
             'total' => $total,
+            'orderToken' => $orderToken,
         ]);
     }
 

@@ -6,94 +6,122 @@ use App\Models\Pedido;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class PedidoController extends Controller
 {
     public function store(Request $request)
     {
-        return DB::transaction(function () {
-            // 1. Leer el carrito de sesión. Si está vacío -> back con error (RN-02).
-            $carrito = session('carrito', []);
+        $userId = Auth::id();
+        $lock = Cache::lock("pedido_store_user_{$userId}", 10);
 
-            if (empty($carrito)) {
-                return redirect('/carrito')->with('error', 'El carrito está vacío. Agrega al menos un producto.');
-            }
+        if (!$lock->get()) {
+            return redirect('/mis-pedidos')->with('info', 'Tu pedido ya se está procesando. Por favor, espera un momento.');
+        }
 
-            // 2. Cargar productos por id desde BD.
-            $productoIds = array_keys($carrito);
-            $productos = Producto::whereIn('id', $productoIds)->lockForUpdate()->get()->keyBy('id');
+        try {
+            return DB::transaction(function () use ($request) {
+                // Protección contra doble envío mediante token de idempotencia
+                $submittedToken = $request->input('order_token');
+                $sessionToken = session('order_token');
 
-            $invalidoNombre = null;
-            foreach ($carrito as $pId => $cantidad) {
-                $p = $productos->get($pId);
-                if (!$p || !$p->activo || !$p->disponible) {
-                    $invalidoNombre = $p ? $p->nombre : "Producto #{$pId}";
-                    unset($carrito[$pId]);
-                }
-            }
-
-            if ($invalidoNombre) {
-                session(['carrito' => $carrito]);
-                return redirect('/carrito')->with('error', "El producto '{$invalidoNombre}' ya no se encuentra disponible. Se retiró de tu carrito.");
-            }
-
-            // 3. Calcular subtotal = precio_bd * cantidad, y total = suma de subtotales (RN-03).
-            $total = 0.0;
-            $detalles = [];
-
-            foreach ($carrito as $pId => $cantidad) {
-                $qty = (int) $cantidad;
-                if ($qty <= 0) {
-                    continue;
+                if ($submittedToken) {
+                    if (!$sessionToken || $submittedToken !== $sessionToken) {
+                        return redirect('/mis-pedidos')->with('info', 'Este pedido ya fue procesado.');
+                    }
+                    session()->forget('order_token');
                 }
 
-                $producto = $productos->get($pId);
-                $precioUnitario = (float) $producto->precio;
-                $subtotal = $precioUnitario * $qty;
-                $total += $subtotal;
+                // 1. Leer el carrito de sesión. Si está vacío -> back con error (RN-02).
+                $carrito = session('carrito', []);
 
-                $detalles[] = [
-                    'producto_id' => $producto->id,
-                    'nombre_producto' => $producto->nombre,
-                    'precio_unitario' => $precioUnitario,
-                    'cantidad' => $qty,
-                    'subtotal' => $subtotal,
-                ];
-            }
+                if (empty($carrito)) {
+                    if (session()->has('pedido_reciente_id')) {
+                        return redirect('/mis-pedidos');
+                    }
+                    return redirect('/carrito')->with('error', 'El carrito está vacío. Agrega al menos un producto.');
+                }
 
-            if (empty($detalles)) {
-                return redirect('/carrito')->with('error', 'El carrito no contiene productos válidos.');
-            }
+                // 2. Cargar productos por id desde BD.
+                $productoIds = array_keys($carrito);
+                $productos = Producto::whereIn('id', $productoIds)->lockForUpdate()->get()->keyBy('id');
 
-            // 4. Generar codigo: 'UF-' . date('Ymd') . '-' . str_pad(<correlativo del día>, 4, '0', STR_PAD_LEFT).
-            $prefix = 'UF-' . date('Ymd') . '-';
-            $countToday = Pedido::where('codigo', 'like', $prefix . '%')->count();
-            $correlativo = $countToday + 1;
-            $codigo = $prefix . str_pad((string) $correlativo, 4, '0', STR_PAD_LEFT);
+                $invalidoNombre = null;
+                foreach ($carrito as $pId => $cantidad) {
+                    $p = $productos->get($pId);
+                    if (!$p || !$p->activo || !$p->disponible) {
+                        $invalidoNombre = $p ? $p->nombre : "Producto #{$pId}";
+                        unset($carrito[$pId]);
+                    }
+                }
 
-            while (Pedido::where('codigo', $codigo)->exists()) {
-                $correlativo++;
+                if ($invalidoNombre) {
+                    session(['carrito' => $carrito]);
+                    return redirect('/carrito')->with('error', "El producto '{$invalidoNombre}' ya no se encuentra disponible. Se retiró de tu carrito.");
+                }
+
+                // 3. Calcular subtotal = precio_bd * cantidad, y total = suma de subtotales (RN-03).
+                $total = 0.0;
+                $detalles = [];
+
+                foreach ($carrito as $pId => $cantidad) {
+                    $qty = (int) $cantidad;
+                    if ($qty <= 0) {
+                        continue;
+                    }
+
+                    $producto = $productos->get($pId);
+                    $precioUnitario = (float) $producto->precio;
+                    $subtotal = $precioUnitario * $qty;
+                    $total += $subtotal;
+
+                    $detalles[] = [
+                        'producto_id' => $producto->id,
+                        'nombre_producto' => $producto->nombre,
+                        'precio_unitario' => $precioUnitario,
+                        'cantidad' => $qty,
+                        'subtotal' => $subtotal,
+                    ];
+                }
+
+                if (empty($detalles)) {
+                    return redirect('/carrito')->with('error', 'El carrito no contiene productos válidos.');
+                }
+
+                // 4. Generar codigo: 'UF-' . date('Ymd') . '-' . str_pad(<correlativo del día>, 4, '0', STR_PAD_LEFT).
+                $prefix = 'UF-' . date('Ymd') . '-';
+                $countToday = Pedido::where('codigo', 'like', $prefix . '%')->count();
+                $correlativo = $countToday + 1;
                 $codigo = $prefix . str_pad((string) $correlativo, 4, '0', STR_PAD_LEFT);
-            }
 
-            // 5. Crear el Pedido (estado 'pendiente') y sus DetallePedido copiando nombre y precio.
-            $pedido = Pedido::create([
-                'codigo' => $codigo,
-                'user_id' => Auth::id(),
-                'estado' => 'pendiente',
-                'total' => $total,
-            ]);
+                while (Pedido::where('codigo', $codigo)->exists()) {
+                    $correlativo++;
+                    $codigo = $prefix . str_pad((string) $correlativo, 4, '0', STR_PAD_LEFT);
+                }
 
-            foreach ($detalles as $detalle) {
-                $pedido->detalles()->create($detalle);
-            }
+                // 5. Crear el Pedido (estado 'pendiente') y sus DetallePedido copiando nombre y precio.
+                $pedido = Pedido::create([
+                    'codigo' => $codigo,
+                    'user_id' => Auth::id(),
+                    'estado' => 'pendiente',
+                    'total' => $total,
+                ]);
 
-            // 6. Vaciar el carrito y redirigir a /mis-pedidos con el código visible.
-            session()->forget('carrito');
+                foreach ($detalles as $detalle) {
+                    $pedido->detalles()->create($detalle);
+                }
 
-            return redirect('/mis-pedidos')->with('success', "¡Pedido registrado con éxito! Tu código de pedido es: {$codigo}");
-        });
+                // 6. Vaciar el carrito y marcar token consumido y pedido reciente.
+                session()->forget('carrito');
+                session()->forget('order_token');
+                session()->flash('pedido_reciente_id', $pedido->id);
+
+                return redirect('/mis-pedidos')->with('success', "¡Pedido registrado con éxito! Tu código de pedido es: {$codigo}");
+            });
+        } finally {
+            optional($lock)->release();
+        }
     }
 
     public function index()

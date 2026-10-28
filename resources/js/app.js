@@ -107,6 +107,28 @@ document.addEventListener('submit', event => {
         return;
     }
     event.target.dataset.submitting = 'true';
+
+    const confirmOrderBtn = event.target.querySelector('[data-confirm-order-btn]');
+    if (confirmOrderBtn) {
+        confirmOrderBtn.dataset.originalHtml = confirmOrderBtn.innerHTML;
+        confirmOrderBtn.disabled = true;
+        confirmOrderBtn.setAttribute('aria-busy', 'true');
+        confirmOrderBtn.textContent = 'Confirmando pedido...';
+    }
+});
+
+window.addEventListener('pageshow', () => {
+    document.querySelectorAll('[data-confirm-order-form]').forEach(form => {
+        form.dataset.submitting = 'false';
+        const btn = form.querySelector('[data-confirm-order-btn]');
+        if (btn) {
+            btn.disabled = false;
+            btn.removeAttribute('aria-busy');
+            if (btn.dataset.originalHtml) {
+                btn.innerHTML = btn.dataset.originalHtml;
+            }
+        }
+    });
 });
 
 const liveRegion = document.querySelector('[data-live-region]');
