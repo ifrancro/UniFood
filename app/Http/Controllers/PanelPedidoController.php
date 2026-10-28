@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pedido;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PanelPedidoController extends Controller
 {
@@ -43,20 +44,28 @@ class PanelPedidoController extends Controller
 
     public function avanzarEstado(Pedido $pedido)
     {
-        // RN-04: Un pedido en estado 'entregado' es inmutable.
-        if ($pedido->estado === 'entregado') {
-            abort(409, 'El pedido ya fue entregado y no puede ser modificado.');
-        }
+        return DB::transaction(function () use ($pedido) {
+            $pedidoActual = Pedido::where('id', $pedido->id)->lockForUpdate()->firstOrFail();
 
-        $siguienteEstado = Pedido::TRANSICIONES[$pedido->estado] ?? null;
+            // RN-04: Un pedido en estado 'entregado' es inmutable.
+            if ($pedidoActual->estado === 'entregado') {
+                abort(409, 'El pedido ya fue entregado y no puede ser modificado.');
+            }
 
-        if (!$siguienteEstado) {
-            abort(400, 'No se puede avanzar el estado actual de este pedido.');
-        }
+            if ($pedidoActual->estado === 'cancelado') {
+                return back()->with('error', 'El pedido fue cancelado y no puede ser modificado.');
+            }
 
-        $pedido->estado = $siguienteEstado;
-        $pedido->save();
+            $siguienteEstado = Pedido::TRANSICIONES[$pedidoActual->estado] ?? null;
 
-        return back()->with('success', "El pedido {$pedido->codigo} avanzó al estado: '{$siguienteEstado}'.");
+            if (!$siguienteEstado) {
+                abort(400, 'No se puede avanzar el estado actual de este pedido.');
+            }
+
+            $pedidoActual->estado = $siguienteEstado;
+            $pedidoActual->save();
+
+            return back()->with('success', "El pedido {$pedidoActual->codigo} avanzó al estado: '{$siguienteEstado}'.");
+        });
     }
 }

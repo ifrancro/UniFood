@@ -148,23 +148,27 @@ class PedidoController extends Controller
 
     public function cancelar(Pedido $pedido)
     {
-        // RN-05
-        if ($pedido->user_id !== Auth::id()) {
-            abort(403, 'Acceso denegado a este pedido.');
-        }
+        return DB::transaction(function () use ($pedido) {
+            $pedidoActual = Pedido::where('id', $pedido->id)->lockForUpdate()->firstOrFail();
 
-        // RN-04: Un pedido en estado 'entregado' es inmutable.
-        if ($pedido->estado === 'entregado') {
-            abort(409, 'Un pedido entregado no puede ser modificado.');
-        }
+            // RN-05
+            if ($pedidoActual->user_id !== Auth::id()) {
+                abort(403, 'Acceso denegado a este pedido.');
+            }
 
-        if ($pedido->estado !== 'pendiente') {
-            return back()->with('error', 'Solo es posible cancelar pedidos en estado pendiente.');
-        }
+            // RN-04: Un pedido en estado 'entregado' es inmutable.
+            if ($pedidoActual->estado === 'entregado') {
+                abort(409, 'Un pedido entregado no puede ser modificado.');
+            }
 
-        $pedido->estado = 'cancelado';
-        $pedido->save();
+            if ($pedidoActual->estado !== 'pendiente') {
+                return back()->with('error', 'Solo es posible cancelar pedidos en estado pendiente.');
+            }
 
-        return redirect('/mis-pedidos')->with('success', "El pedido {$pedido->codigo} ha sido cancelado.");
+            $pedidoActual->estado = 'cancelado';
+            $pedidoActual->save();
+
+            return redirect('/mis-pedidos')->with('success', "El pedido {$pedidoActual->codigo} ha sido cancelado.");
+        });
     }
 }
