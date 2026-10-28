@@ -30,6 +30,22 @@ document.querySelectorAll('[data-password-toggle]').forEach(button => {
     });
 });
 
+const lockoutBox = document.querySelector('[data-lockout-timer]');
+if (lockoutBox) {
+    let seconds = parseInt(lockoutBox.dataset.seconds, 10) || 60;
+    const display = lockoutBox.querySelector('[data-seconds-display]');
+    const submitBtn = document.querySelector('form[action$="/login"] button[type="submit"]');
+    const interval = setInterval(() => {
+        seconds--;
+        if (display) display.textContent = String(Math.max(0, seconds));
+        if (seconds <= 0) {
+            clearInterval(interval);
+            lockoutBox.hidden = true;
+            if (submitBtn) submitBtn.disabled = false;
+        }
+    }, 1000);
+}
+
 const normalize = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
 document.querySelector('[data-product-search]')?.addEventListener('input', event => {
     let visible = 0;
