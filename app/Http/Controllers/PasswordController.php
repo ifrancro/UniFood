@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -24,19 +25,16 @@ class PasswordController extends Controller
             'email.exists' => 'No encontramos ningún usuario con ese correo electrónico.',
         ]);
 
-        $token = Str::random(64);
+        // Use Laravel's hashed, expiring tokens and request throttle.
+        $status = Password::sendResetLink($request->only('email'), function (User $user, string $token) {
+            $url = route('password.reset', ['token' => $token, 'email' => $user->email]);
+            // Local demonstration delivery; never publish application logs.
+            Log::info("UniFood - Enlace de recuperación de contraseña para {$user->email}: {$url}");
+        });
 
-        DB::table('password_reset_tokens')->updateOrInsert(
-            ['email' => $request->email],
-            [
-                'token' => $token,
-                'created_at' => now(),
-            ]
-        );
-
-        $url = route('password.reset', ['token' => $token, 'email' => $request->email]);
-
-        Log::info("UniFood - Enlace de recuperación de contraseña para {$request->email}: {$url}");
+        if ($status !== Password::RESET_LINK_SENT) {
+            return back()->withErrors(['email' => 'Espera un minuto antes de solicitar otro enlace.']);
+        }
 
         return back()->with('success', 'Enlace de recuperación generado. Por favor revisa el archivo storage/logs/laravel.log');
     }
@@ -57,22 +55,20 @@ class PasswordController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
-        $record = DB::table('password_reset_tokens')
-            ->where('email', $request->email)
-            ->where('token', $request->token)
-            ->first();
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+                event(new PasswordReset($user));
+            }
+        );
 
-        if (!$record) {
-            return back()->withErrors([
-                'email' => 'El enlace de recuperación es inválido o ha expirado.',
-            ]);
+        if ($status !== Password::PASSWORD_RESET) {
+            return back()->withErrors(['email' => 'El enlace de recuperación es inválido o ha expirado.']);
         }
-
-        $user = User::where('email', $request->email)->first();
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
 
         return redirect('/login')->with('success', 'Tu contraseña ha sido restablecida con éxito. Ya puedes iniciar sesión.');
     }

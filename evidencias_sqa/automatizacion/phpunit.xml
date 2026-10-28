@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/home/runner/work/UniFood/UniFood/phpunit.xml" tests="14" assertions="110" errors="0" failures="0" skipped="0" time="1.311048">
+    <testsuite name="Unit" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.000349">
+      <testsuite name="Tests\Unit\ExampleTest" file="/home/runner/work/UniFood/UniFood/tests/Unit/ExampleTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.000349">
+        <testcase name="test_that_true_is_true" file="/home/runner/work/UniFood/UniFood/tests/Unit/ExampleTest.php" line="12" class="Tests\Unit\ExampleTest" classname="Tests.Unit.ExampleTest" assertions="1" time="0.000349"/>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Feature" tests="13" assertions="109" errors="0" failures="0" skipped="0" time="1.310700">
+      <testsuite name="Tests\Feature\AdminProductosTest" file="/home/runner/work/UniFood/UniFood/tests/Feature/AdminProductosTest.php" tests="5" assertions="50" errors="0" failures="0" skipped="0" time="0.180221">
+        <testcase name="test_admin_can_create_products_with_availability_checked_or_unchecked" file="/home/runner/work/UniFood/UniFood/tests/Feature/AdminProductosTest.php" line="24" class="Tests\Feature\AdminProductosTest" classname="Tests.Feature.AdminProductosTest" assertions="9" time="0.119884"/>
+        <testcase name="test_admin_can_uncheck_both_flags_and_reactivate_the_product" file="/home/runner/work/UniFood/UniFood/tests/Feature/AdminProductosTest.php" line="41" class="Tests\Feature\AdminProductosTest" classname="Tests.Feature.AdminProductosTest" assertions="15" time="0.025094"/>
+        <testcase name="test_explicit_zero_from_hidden_form_fields_is_saved_as_false" file="/home/runner/work/UniFood/UniFood/tests/Feature/AdminProductosTest.php" line="62" class="Tests\Feature\AdminProductosTest" classname="Tests.Feature.AdminProductosTest" assertions="8" time="0.009227"/>
+        <testcase name="test_invalid_price_does_not_change_a_product" file="/home/runner/work/UniFood/UniFood/tests/Feature/AdminProductosTest.php" line="74" class="Tests\Feature\AdminProductosTest" classname="Tests.Feature.AdminProductosTest" assertions="5" time="0.009144"/>
+        <testcase name="test_students_and_employees_cannot_modify_products" file="/home/runner/work/UniFood/UniFood/tests/Feature/AdminProductosTest.php" line="86" class="Tests\Feature\AdminProductosTest" classname="Tests.Feature.AdminProductosTest" assertions="13" time="0.016872"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\ExampleTest" file="/home/runner/work/UniFood/UniFood/tests/Feature/ExampleTest.php" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.007895">
+        <testcase name="test_the_application_returns_a_successful_response" file="/home/runner/work/UniFood/UniFood/tests/Feature/ExampleTest.php" line="13" class="Tests\Feature\ExampleTest" classname="Tests.Feature.ExampleTest" assertions="2" time="0.007895"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\PasswordRecoveryTest" file="/home/runner/work/UniFood/UniFood/tests/Feature/PasswordRecoveryTest.php" tests="3" assertions="16" errors="0" failures="0" skipped="0" time="0.635656">
+        <testcase name="test_valid_reset_hashes_token_changes_password_and_rejects_reuse" file="/home/runner/work/UniFood/UniFood/tests/Feature/PasswordRecoveryTest.php" line="16" class="Tests\Feature\PasswordRecoveryTest" classname="Tests.Feature.PasswordRecoveryTest" assertions="8" time="0.015935"/>
+        <testcase name="test_expired_token_cannot_change_password" file="/home/runner/work/UniFood/UniFood/tests/Feature/PasswordRecoveryTest.php" line="30" class="Tests\Feature\PasswordRecoveryTest" classname="Tests.Feature.PasswordRecoveryTest" assertions="3" time="0.209365"/>
+        <testcase name="test_link_requests_are_throttled_and_store_a_hash" file="/home/runner/work/UniFood/UniFood/tests/Feature/PasswordRecoveryTest.php" line="41" class="Tests\Feature\PasswordRecoveryTest" classname="Tests.Feature.PasswordRecoveryTest" assertions="5" time="0.410357"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\UniFoodExperienceTest" file="/home/runner/work/UniFood/UniFood/tests/Feature/UniFoodExperienceTest.php" tests="4" assertions="41" errors="0" failures="0" skipped="0" time="0.486927">
+        <testcase name="test_student_can_order_and_staff_can_complete_the_pickup" file="/home/runner/work/UniFood/UniFood/tests/Feature/UniFoodExperienceTest.php" line="15" class="Tests\Feature\UniFoodExperienceTest" classname="Tests.Feature.UniFoodExperienceTest" assertions="23" time="0.267868"/>
+        <testcase name="test_students_cannot_view_another_students_order_or_access_the_panel" file="/home/runner/work/UniFood/UniFood/tests/Feature/UniFoodExperienceTest.php" line="42" class="Tests\Feature\UniFoodExperienceTest" classname="Tests.Feature.UniFoodExperienceTest" assertions="4" time="0.020777"/>
+        <testcase name="test_unavailable_products_cannot_be_added_and_empty_orders_are_rejected" file="/home/runner/work/UniFood/UniFood/tests/Feature/UniFoodExperienceTest.php" line="54" class="Tests\Feature\UniFoodExperienceTest" classname="Tests.Feature.UniFoodExperienceTest" assertions="7" time="0.018177"/>
+        <testcase name="test_admin_product_and_authentication_screens_render" file="/home/runner/work/UniFood/UniFood/tests/Feature/UniFoodExperienceTest.php" line="68" class="Tests\Feature\UniFoodExperienceTest" classname="Tests.Feature.UniFoodExperienceTest" assertions="7" time="0.180105"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

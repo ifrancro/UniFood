@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="18.996" tests="7" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-10-28T03:46:44" tests="0" file="tests/cypress/unifood.cy.cjs" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="UniFood flujos de acceso y experiencia" timestamp="2026-10-28T03:46:44" tests="7" time="18.995" failures="0">
+    <testcase name="UniFood flujos de acceso y experiencia CP-01 rechaza credenciales incorrectas" time="0.875" classname="CP-01 rechaza credenciales incorrectas">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-01 estudiante accede al catálogo" time="2.766" classname="CP-01 estudiante accede al catálogo">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-02 estudiante no puede administrar" time="2.851" classname="CP-02 estudiante no puede administrar">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-02 empleado no puede administrar" time="2.690" classname="CP-02 empleado no puede administrar">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-13 confirmación propia permite volver sin desactivar" time="3.130" classname="CP-13 confirmación propia permite volver sin desactivar">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-16 catálogo móvil sin desbordamiento horizontal" time="3.772" classname="CP-16 catálogo móvil sin desbordamiento horizontal">
+    </testcase>
+    <testcase name="UniFood flujos de acceso y experiencia CP-06 carrito vacío presenta estado claro" time="2.738" classname="CP-06 carrito vacío presenta estado claro">
+    </testcase>
+  </testsuite>
+</testsuites>
