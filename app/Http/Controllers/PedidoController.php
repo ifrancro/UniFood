@@ -89,16 +89,8 @@ class PedidoController extends Controller
                     return redirect('/carrito')->with('error', 'El carrito no contiene productos válidos.');
                 }
 
-                // 4. Generar codigo: 'UF-' . date('Ymd') . '-' . str_pad(<correlativo del día>, 4, '0', STR_PAD_LEFT).
-                $prefix = 'UF-' . date('Ymd') . '-';
-                $countToday = Pedido::where('codigo', 'like', $prefix . '%')->count();
-                $correlativo = $countToday + 1;
-                $codigo = $prefix . str_pad((string) $correlativo, 4, '0', STR_PAD_LEFT);
-
-                while (Pedido::where('codigo', $codigo)->exists()) {
-                    $correlativo++;
-                    $codigo = $prefix . str_pad((string) $correlativo, 4, '0', STR_PAD_LEFT);
-                }
+                // 4. Generar código único y correlativo seguro frente a concurrencia
+                $codigo = Pedido::generarCodigo();
 
                 // 5. Crear el Pedido (estado 'pendiente') y sus DetallePedido copiando nombre y precio.
                 $pedido = Pedido::create([
