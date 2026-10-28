@@ -9,3 +9,6 @@ Ejecutar php artisan migrate --seed --force y php artisan serve --host=127.0.0.1
 Los usuarios sembrados de esta base de prueba tienen contraseña password. No son credenciales de producción. Cypress conserva XML JUnit y capturas; Selenium conserva JSON y capturas en evidencias_sqa/automatizacion. No confundir los casos preparados con pruebas ejecutadas. Consultar sus reportes y códigos de salida.
 
 El workflow Calidad UniFood se ejecuta al publicar un commit, abrir un pull request o activarlo manualmente. Un archivo YAML local no acredita una ejecución aprobada en GitHub Actions.
+
+
+Campaña de cierre aprobada: https://github.com/ifrancro/UniFood/actions/runs/40628543184, commit 14774aa01fc7d735df3a5dc9e6b65cdff87d1f32. PHPUnit 14/14, PWA 6/6, Cypress 7/7 y Selenium 4/4. Los XML, JSON y capturas originales están en el artefacto evidencias-calidad. El informe identifica las comprobaciones parciales y los límites de cobertura.

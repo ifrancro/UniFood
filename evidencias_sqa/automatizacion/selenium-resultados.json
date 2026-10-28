@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-28T03:47:10.108Z",
+  "base": "http://127.0.0.1:8011",
+  "results": [
+    {
+      "name": "CP-01 login estudiante con navegador real",
+      "status": "passed",
+      "ms": 1577
+    },
+    {
+      "name": "CP-06 carrito vacío",
+      "status": "passed",
+      "ms": 988
+    },
+    {
+      "name": "CP-13 cancelar confirmación administrativa",
+      "status": "passed",
+      "ms": 1285
+    },
+    {
+      "name": "CP-16 catálogo móvil",
+      "status": "passed",
+      "ms": 2048
+    }
+  ]
+}

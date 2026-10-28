@@ -1,18 +1,19 @@
 # Tablero Scrum de UniFood
 
-Fecha de corte: 27 de octubre de 2026. Este tablero local sirve para seguimiento; el proyecto vinculado está publicado en https://github.com/users/kat506/projects/1. Los estados distinguen desarrollo existente de aceptación del equipo.
+Proyecto público: https://github.com/users/kat506/projects/1
+Repositorio: https://github.com/ifrancro/UniFood
+Campaña aprobada: https://github.com/ifrancro/UniFood/actions/runs/40628543184
 
-| Por hacer | En revisión | Comprobado técnicamente |
-| --- | --- | --- |
-| Acordar roles y fechas del sprint | HU-01 a HU-10: validar aceptación | Regresión PHP: 14 pruebas y 110 aserciones |
-| Revisar TP-UF-01 y prioridades | Recuperación y expiración del token | Service worker: 6 pruebas |
-| Auditoría por otro integrante | Automatización Cypress y Selenium | Correcciones DEF-01 y DEF-02 |
-| Instalación PWA en teléfono | Pipeline pendiente de ejecución remota | Confirmación integrada del sistema |
+Las historias HU-01 a HU-10 están publicadas como issues 2 a 11 con criterios y casos CP. El PR 1 reúne la automatización y corrección. DEF-03 se cerró en el issue 12 tras la regresión. Estados: Por validar, En curso, En revisión y Terminado. Una historia existente permanece Por validar hasta revisar todos sus criterios; ese estado no significa prueba fallida.
 
-## Política del tablero
+## Política
 
-Mover a En curso al comenzar una tarea real; mantener una tarea activa por integrante. Pasar a En revisión con código, caso y evidencia. Pasar a Terminado con revisión, criterio de aceptación satisfecho y pruebas aplicables aprobadas. Una prueba bloqueada nunca equivale a un caso aprobado.
+Mover a En curso al comenzar trabajo real, con responsable. Pasar a En revisión con código, casos y evidencias. Pasar a Terminado con criterios satisfechos, revisión y pruebas aplicables aprobadas. Mantener una tarea activa por integrante y registrar impedimentos.
 
-## Sprint propuesto
+## Responsabilidades confirmadas
 
-Objetivo: preparar una versión demostrable con trazabilidad y evidencia reproducible de acceso, catálogo, pedidos y administración. Fechas, capacidad y compromiso se acuerdan entre Ian Romero, Kathleen Barrientos y Sergio Iporre. Esta propuesta no es acta de una reunión realizada.
+Ian Romero: Product Owner. Kathleen Barrientos: Scrum Master. Sergio Iporre: Developer. Los tres colaboran en desarrollo y pruebas. Confirmación del usuario el 27 de octubre de 2026, Bolivia. No se presuponen reuniones, asistencia ni firmas.
+
+## Objetivo para la planificación
+
+Consolidar el flujo estudiante, personal y administrador con reglas verificadas, trazabilidad y evidencia. El equipo acordará fechas y capacidad de su sprint y estimará las historias; no se ha inventado un sprint previo para atribuir este trabajo a eventos no realizados.
